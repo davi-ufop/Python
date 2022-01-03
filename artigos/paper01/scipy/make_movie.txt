@@ -1,0 +1,1 @@
+ffmpeg -framerate 25 -i %03d.png output01.avi
