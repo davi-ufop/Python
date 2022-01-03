@@ -36,5 +36,5 @@ done   ## Pronto!
 #sed -i 's/'$k2'/'$k0'/g' double_pendulum.py
 ## Limpando tudo
 rm -rf movie_*
-clear && ls && tree
+clear && ls ##&& tree
 ## FIM
