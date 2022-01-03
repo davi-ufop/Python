@@ -14,10 +14,10 @@ m1, m2 = 1, 1
 ### Aceleração gravitacional
 g = 9.82
 ### Tempo máximo, passo temporal e mesh de integração (no tempo - s):
-tmax, dt = 30, 0.01
+tmax, dt = 20, 0.01     ## tmax*10 é o número de figuras geradas
 t = np.arange(0, tmax+dt, dt)
 ### Condições iniciais para o sistema dinâmico - ALTERE ISSO!
-y0 = np.array([3.7*np.pi/7, 0, 3.7*np.pi/4, 0])
+y0 = np.array([8.0*np.pi/7, 0, 8.0*np.pi/4, 0])
 
 ### Definindo o conjunto de equações: campo vetorial do sistema dinâmico
 def deriv(y, t, L1, L2, m1, m2):
@@ -89,7 +89,7 @@ def make_plot(i):
 ### Criando os frames em cada passo temporal
 fps = 10
 di = int(1/fps/dt)
-fig = pl.figure(figsize=(8.3333, 6.25), dpi=72)
+fig = pl.figure(figsize=(8.3, 8.05), dpi=72)
 ax = fig.add_subplot(111)
 
 ### Executando a plotagem
