@@ -1,0 +1,16 @@
+CONDIÇÕES INICIAIS DAS SIMULAÇÕES
+ 
+Simulação 1:
+CI = 3.0
+ 
+Simulação 2:
+CI = 3.1
+ 
+Simulação 3:
+CI = 3.2
+ 
+Simulação 4:
+CI = 3.3
+ 
+Simulação 5:
+CI = 3.4

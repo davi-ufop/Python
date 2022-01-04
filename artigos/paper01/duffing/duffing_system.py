@@ -20,6 +20,7 @@ def sist_edos(x, tp):
   ## Entrada das variáveis
   x1, x2 = x
   ## Equações diferenciais acopladas -> Pêndulo Simples O(3)
+  ## Ref.: MODERN KOOPMAN THEORY FOR DYNAMICAL SYSTEMS - S. L. Brunton
   dx1_dt = x2
   dx2_dt = x1 - x1**3
   ## Retorno do sistema
