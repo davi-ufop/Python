@@ -199,3 +199,73 @@ y0 = np.array([7.8*np.pi/7, 0, 7.8*np.pi/4, 0])
 C.I. 9:
 ### Condições iniciais para o sistema dinâmico - ALTERE ISSO!
 y0 = np.array([7.9*np.pi/7, 0, 7.9*np.pi/4, 0])
+ 
+C.I. 0:
+### Condições iniciais para o sistema dinâmico - ALTERE ISSO!
+y0 = np.array([8.0*np.pi/7, 0, 8.0*np.pi/4, 0])
+--
+    ## Condições iniciais em cada passo temporal e multiplicadores:
+    theta1, z1, theta2, z2 = y     
+ 
+C.I. 1:
+### Condições iniciais para o sistema dinâmico - ALTERE ISSO!
+y0 = np.array([8.1*np.pi/7, 0, 8.1*np.pi/4, 0])
+--
+    ## Condições iniciais em cada passo temporal e multiplicadores:
+    theta1, z1, theta2, z2 = y     
+ 
+C.I. 2:
+### Condições iniciais para o sistema dinâmico - ALTERE ISSO!
+y0 = np.array([8.2*np.pi/7, 0, 8.2*np.pi/4, 0])
+--
+    ## Condições iniciais em cada passo temporal e multiplicadores:
+    theta1, z1, theta2, z2 = y     
+ 
+C.I. 3:
+### Condições iniciais para o sistema dinâmico - ALTERE ISSO!
+y0 = np.array([8.3*np.pi/7, 0, 8.3*np.pi/4, 0])
+--
+    ## Condições iniciais em cada passo temporal e multiplicadores:
+    theta1, z1, theta2, z2 = y     
+ 
+C.I. 4:
+### Condições iniciais para o sistema dinâmico - ALTERE ISSO!
+y0 = np.array([8.4*np.pi/7, 0, 8.4*np.pi/4, 0])
+--
+    ## Condições iniciais em cada passo temporal e multiplicadores:
+    theta1, z1, theta2, z2 = y     
+ 
+C.I. 5:
+### Condições iniciais para o sistema dinâmico - ALTERE ISSO!
+y0 = np.array([8.5*np.pi/7, 0, 8.5*np.pi/4, 0])
+--
+    ## Condições iniciais em cada passo temporal e multiplicadores:
+    theta1, z1, theta2, z2 = y     
+ 
+C.I. 6:
+### Condições iniciais para o sistema dinâmico - ALTERE ISSO!
+y0 = np.array([8.6*np.pi/7, 0, 8.6*np.pi/4, 0])
+--
+    ## Condições iniciais em cada passo temporal e multiplicadores:
+    theta1, z1, theta2, z2 = y     
+ 
+C.I. 7:
+### Condições iniciais para o sistema dinâmico - ALTERE ISSO!
+y0 = np.array([8.7*np.pi/7, 0, 8.7*np.pi/4, 0])
+--
+    ## Condições iniciais em cada passo temporal e multiplicadores:
+    theta1, z1, theta2, z2 = y     
+ 
+C.I. 8:
+### Condições iniciais para o sistema dinâmico - ALTERE ISSO!
+y0 = np.array([8.8*np.pi/7, 0, 8.8*np.pi/4, 0])
+--
+    ## Condições iniciais em cada passo temporal e multiplicadores:
+    theta1, z1, theta2, z2 = y     
+ 
+C.I. 9:
+### Condições iniciais para o sistema dinâmico - ALTERE ISSO!
+y0 = np.array([8.9*np.pi/7, 0, 8.9*np.pi/4, 0])
+--
+    ## Condições iniciais em cada passo temporal e multiplicadores:
+    theta1, z1, theta2, z2 = y     

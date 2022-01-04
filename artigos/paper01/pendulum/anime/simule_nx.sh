@@ -3,7 +3,7 @@
 ### Davi Neves - Ouro Preto, Brasil - Jan. 2022
 
 ### Parâmetros iniciais 
-k0=7.0    ## Primeira condição inicial
+k0=8.0    ## Primeira condição inicial
 dv=10     ## Variação das condições
 
 ### Loop para realizar as 4 simulações

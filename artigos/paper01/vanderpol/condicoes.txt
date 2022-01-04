@@ -1,0 +1,9 @@
+CONDICOES INICIAIS
+ 
+K=01
+### Condições iniciais - Posição e Velocidade
+x0 = np.array([-3.6, 13.7])
+ 
+K=02
+### Condições iniciais - Posição e Velocidade
+x0 = np.array([3.6, -13.7])
