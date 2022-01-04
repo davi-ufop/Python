@@ -1,0 +1,10 @@
+### Arquivos de imagens e vídeos
+*.png
+*.avi
+*.jpg
+*.mp4
+
+### Resultados salvos em TXT
+*.txt
+*.dat
+*.sql
