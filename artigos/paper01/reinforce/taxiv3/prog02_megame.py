@@ -51,8 +51,13 @@ for acao in lista:
     penalidades += 1
   passos += 1  
 
-### Resultados do sucesso!?
+### Resultados:
+if (pronto == True):
+    print("Você conseguiu, parabéns!")
+else:
+    print("O jogo acabou e você não conseguiu.")
+### Contagem
 print("Foram realizados ", passos, " passos.")
-print("Cumprindo ", penalidades, " penalidades.")
+print("Com ", penalidades, " penalidades.")
 
 ### FIM
