@@ -4,6 +4,8 @@
 ### Importando módulos necessários
 from mylib02 import *
 from random import uniform
+import warnings
+warnings.filterwarnings('ignore')
 
 ### Parâmetros e variáveis do processo
 dteta = 0.01    ### Variação angular 
@@ -32,11 +34,11 @@ for i in range(3):
 
   ###### Construindo as ações - MUITO IMPORTANTE
   ### Listas para as ações nas juntas do braço
-  da1 = acoes_junta(a1o, a1b, na1, dteta)
-  da2 = acoes_junta(a2o, a2b, na2, dteta)
+  da1 = acoes_listas(a1o, a1b, dteta)
+  da2 = acoes_listas(a2o, a2b, dteta)
 
   ###### Realizando os movimentos para pegar o objeto
   caminho = "prog03/pegou{}.png".format(i+1)
-  move_braco(da1, da2, a1b, a2b, R, xo, yo, caminho)
+  move_braco(xo, yo, a1b, a2b, da1, da2, R, caminho)
 
 ### FIM

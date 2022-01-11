@@ -9,7 +9,7 @@ from matplotlib.patches import Rectangle  ## Área factível
 from mylib01 import *               ## Primeira biblioteca
 
 ### Para igualar as listas de ações nos ângulos
-def igualacoes(da1, da2):
+def igualistas(da1, da2):
   ### Medindo as listas
   lda1 = len(da1)
   lda2 = len(da2)
@@ -27,16 +27,16 @@ def igualacoes(da1, da2):
 ###### Apresentando os movimentos de acordo com
 ###### estas ações:
 ### Movimento do braço1:
-def move_braco(da1, da2, a1b, a2b, R, xo, yo, caminho):
+def move_braco(xo, yo, a1b, a2b, da1, da2, R, caminho, tamanho):
   ### Parâmetros:
-  tamanho = 0.04
-  passo = 0
   L1, L2 = R/2, R/2
+  LM = round(1.1*(R/np.sqrt(2)), 2) 
+  passo = 0
   dt = 2
   ### Retângulo que representa a áera útil
-  rect = Rectangle((-1.4,-1.4), 2.8, 1.4, linewidth=2, edgecolor='brown', facecolor='none')
+  rect = Rectangle((-LM,-LM), 2*LM, LM, linewidth=2, edgecolor='brown', facecolor='none')
   ### Igualando as listas de ações (mesmo número de incrementos angulares)
-  da1, da2 = igualacoes(da1, da2)
+  da1, da2 = igualistas(da1, da2)
   ### Realizando os movimentos sincronizadamente:
   for ac in zip(da1, da2):
     ### Atualizando o valor do ângulo 1
@@ -64,7 +64,7 @@ def move_braco(da1, da2, a1b, a2b, R, xo, yo, caminho):
     ### Textos na figura, começando pelo estado e passo da simulação
     ang1 = 180*a1b/np.pi
     ang2 = 180*a2b/np.pi
-    texto1 = str("Estado: {:.1f}° e {:.1f}° ".format(ang1, ang2))
+    texto1 = str("Ângulos: {:.1f}° e {:.1f}° ".format(ang1, ang2))
     texto2 = str("  => Passo: {}".format(passo+1))
     textoT = texto1 + texto2
     pl.title(textoT)
@@ -78,9 +78,11 @@ def move_braco(da1, da2, a1b, a2b, R, xo, yo, caminho):
     texto6 = str("[x, y] = [{:.2f}, {:.2f}]".format(xo, yo))
     textoY = texto5 + texto6
     pl.ylabel(textoY)
-    ### Um extra, adicionando as ações no canto direito
+    ### Um extra, adicionando as ações no canto direito e o estado no esquerdo
     txtaco = str("Ação:\nBraço1 = {:.2f}\nBraço2 = {:.2f}".format(ac[0], ac[1]))
-    pl.text(1.15, 0.15, txtaco)
+    pl.text(R-0.99, 0.15, txtaco)
+    txtstt = str("Estado:\nX = {:.2f}\nY = {:.2f}".format(x2, y2))
+    pl.text(-R+0.4, 0.15, txtstt)
     ### Condição de parada
     if (dob < tamanho):
       ### Salve a figura

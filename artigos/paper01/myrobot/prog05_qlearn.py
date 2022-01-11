@@ -1,45 +1,123 @@
+"""
 ### Programa que o robô vai usar uma q-table para aprender a pegar três objetos
-### Use seed
-
-### As 9 Ações
-A0 -> -1, -1     x dx = r
-A1 -> -1, +1     x dx
-A2 -> -1,  0     x dx
-A3 -> +1, -1     x dx
-A4 -> +1, +1     x dx
-A5 -> +1,  0     x dx
-A6 ->  0, -1     x dx
-A7 ->  0, +1     x dx
+### Ações:
+A0 -> -1, -1     
+A1 -> -1, +1     
+A2 -> -1,  0     
+A3 -> +1, -1    
+...
 A8 ->  0,  0  (Pegou o objeto) 
 
-### Estados
-=> Não use formas circulares:
-Área Útil: AU = 0.5*pi*R²
-Tamanho do objeto: To = pi*r²
-Logo, se:
-  R = 2
-  r = 0.04   como normalmente usamos, progs 1 e 2, além de mylibs 2 e 3
-Então temos:
-  N° de estados = AU/To ~ 6.283/0.005 = 1250 estados
-MAS NÃO É ISSO
+### Estados:
+  Estado 0 = [0, -2]
+  Estado 1 ->   Estado 0 + A0
+  Estado 2 ->   Estado 1 + A0 
+  Estado 3 ->   Estado 2 + A0 
 
-Área Factível = Uma mesa de 2.8 m por 1.4
-Área de cada Estado = Um objeto quadrado de lado 0.04
-AF = 2.8*1.4 = 3.92 m²
-AE = 0.04*0.04 = 0.0016
-Então, AF/AE = 2450, este é o número de estados
-Nº de Estados com recompensa = 2450
+### Davi Neves - Ouro Preto, Brasil - Jan., 2022 """
 
-  Cada estado é definido pelas coordenadas: x e y
-  Estado 0 ->   [ teta1=0, teta2=0]
-  Estado 1 ->   Estado 0 + A0 = [-0.04, -0.04]
-  Estado 2 ->   Estado 0 + A1 = [-0.04, +0.04]
-  Estado 3 ->   Estado 0 + A2 = [-0.04,  0.00]
-  Estado 4 ->   [+0.04, -0.04]
-  ...
-  Estado 9 ->   Estado 1 + A0 = [-0.08, -0.08]
+### Importando módulos necessários
+from mylib04 import *
+from random import seed, randint, uniform, choice
+import warnings
+warnings.filterwarnings('ignore')
 
+### Parâmetros e variáveis do processo
+R = 2             ### Dimensões do ambiente 
+B = R/np.sqrt(2)  ### Alcance máximo do braço
+dteta = 0.05      ### Tamanho da variação angular, valor adequado! Não aletere!
+tamanho = 0.05    ### Dimensão do objeto
+P = 2             ### Precisão das medidas
+L1, L2 = R/2, R/2
 
-q_table = np.zeros(2450, 9)
+############ INICIANDO A DIVERSÃO
+seed(888)
+### Pegando 3 objetos:
+for i in range(1):
+  ########## PARÂMETROS E VARIÁEIS INICIAIS
+  ### Definindo a posição do objeto, na mesa!
+  print("\nObjeto ", i+1)
+  xo = round(tamanho*(uniform(-B, B)//tamanho), P)
+  yo = round(tamanho*(uniform(-B, 0)//tamanho), P)
+  print("xo = ", xo, "yo = ", yo)
+  ### Definindo a posição do braço
+  xb = round(uniform(-B, B), P)
+  yb = round(uniform(-B, 0), P)
+  print("xb = ", xb, "yb = ", yb)
+  
+  ########## LISTAS DE AÇÕES -> CARTESIANAS E ANGULARES
+  ### CARTESIANAS:
+  ### Lista de pontos cartesianos
+  lpx =  acoes_listas(xo, xb, dteta)
+  lpy =  acoes_listas(yo, yb, dteta)
+  lpx, lpy = igualistas(lpx, lpy)
+  ### ANGULARES:
+  ### Determinando os ângulos
+  [o1, o2] = angulos_ponto(xo, yo, L1, L2)
+  [a1, a2] = angulos_ponto(xb, yb, L1, L2)
+  ### Lista dos ângulos das juntas
+  la1 =  acoes_listas(o1, a1, dteta)
+  la2 =  acoes_listas(o2, a2, dteta)
+  la1, la2 = igualistas(la1, la2)
+ 
+  ########## ESTADOS DO SISTEMA -> CARTESIANOS E ANGULARES
+  ### Estados do sistema em X e Y
+  vxp, vyp = varia_estados(xb, yb, lpx, lpy)
+  ### Estados do sistema em ângulos
+  va1, va2 = varia_estados(a1, a2, la1, la2)
+  ### Trajetória do pêndulo
+  vxa = L1*(np.sin(va1)) + L2*(np.sin(va2))
+  vya = L1*(np.cos(va1)) + L2*(np.cos(va2))
+  ### Plotando as duas trajetórias
+  salvem = "prog05/trajetoria{}.png".format(i+1)
+  plot_trajetorias(vxa, vya, vxp, vyp, salvem)
+  
+  ###### Realizando os movimentos para pegar o objeto
+  caminho = "prog05/pegou{}.png".format(i+1)
+  move_braco(xo, yo, a1, a2, la1, la2, R, caminho, tamanho)
 
-qual o valor de dteta? para reprsentar a ação ...?
+#####################################################################
+############ INICIANDO O TREINAMENTO
+### Contando estados e ações:
+AN = 9           
+### Precisão dos estados para o treino:
+dd = 0.05
+### Confirmando os estados contínuos -> angulares
+saved = "prog05/estados.png"
+EN, TAG, TXY = plot_estados(R, dd, saved)
+
+### Verificando se todos os estados estão contemplados
+Bom, Ruim = completo(R, dd, TXY)
+print("\nDeu Ruim = ", Ruim)
+print("Deu Bom = ", Bom)
+
+### Criando a tabela Q de acordo com nossa introdução
+qtab = np.zeros([EN, AN])
+print("Número de estados = ", len(qtab))
+
+### Definindo o estado do objeto
+seed(888)
+xo = round(dd*(uniform(-B, B)//dd), P)
+yo = round(dd*(uniform(-B, 0)//dd), P)
+### Descobrindo o estado do objeto
+print("Objeto: x = ", xo, " y = ", yo)
+IO = np.where(np.all(TXY == (xo, yo), axis=1))[0][0]
+print("Estado do objeto = ", IO)
+
+### Dando a recompensa para achá-lo
+qtab[IO, 8] = 20
+
+### Estabelecendo as punições
+print("\nPunições:")
+qtab = punicoes(qtab, TXY, B)
+
+### Realizando os treinos
+print("\nTreinando -> Q-Table:")
+K = 20000000
+qtab = treino(qtab, K, TXY, dd)
+np.savetxt("qtable.csv", qtab, delimiter=',')
+
+### Apresentando a Q-table atualizada
+print(qtab[IO-15:IO+15])
+
+### FIM"""

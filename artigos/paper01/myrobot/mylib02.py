@@ -11,7 +11,7 @@ from mylib01 import *               ## Primeira biblioteca
 ###### Apresentando os movimentos de acordo com
 ###### estas ações:
 ### Movimento do braço1:
-def move_braco(da1, da2, a1b, a2b, R, xo, yo, caminho):
+def move_braco(xo, yo, a1b, a2b, da1, da2, R, caminho):
   ### Parâmetros:
   tamanho = 0.04
   passo = 0

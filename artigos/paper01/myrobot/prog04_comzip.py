@@ -6,17 +6,24 @@
 ### Importando módulos necessários
 from mylib03 import *
 from random import uniform
+import warnings
+warnings.filterwarnings('ignore')
 
 ### Parâmetros e variáveis do processo
-dteta = 0.01    ### Variação angular 
-R = 2           ### Dimensão do ambiente 
+dteta = 0.01      ### Variação angular 
+R = 2             ### Dimensões do ambiente 
+B = R/np.sqrt(2)  ### Alcance máximo do braço
+tamanho = 0.04    ### Dimensão do objeto
+
+### Total de estados
+print("Total de estados = ", (2.2*(R*R)/2)//tamanho)
 
 ### Pegando 3 objetos:
 for i in range(3):
-  ### Definindo a posição do objeto
+  ### Definindo a posição do objeto, na mesa!
   print("\nObjeto ", i+1)
-  xo = eval(input("Digite a coordenada -1.5<X<1.5 do objeto: "))
-  yo = eval(input("Digite a coordenada -1.5<Y<0 do objeto: "))
+  xo = round(tamanho*(uniform(-B, B)//tamanho), 2)
+  yo = round(tamanho*(uniform(-B, 0)//tamanho), 2)
   ### Definindo os ângulos alvos
   [a1o, a2o] = angulos_ponto(xo, yo, 1, 1)
 
@@ -34,11 +41,11 @@ for i in range(3):
 
   ###### Construindo as ações - MUITO IMPORTANTE
   ### Listas para as ações nas juntas do braço
-  da1 = acoes_junta(a1o, a1b, na1, dteta)
-  da2 = acoes_junta(a2o, a2b, na2, dteta)
+  da1 = acoes_listas(a1o, a1b, dteta)
+  da2 = acoes_listas(a2o, a2b, dteta)
 
   ###### Realizando os movimentos para pegar o objeto
   caminho = "prog04/pegou{}.png".format(i+1)
-  move_braco(da1, da2, a1b, a2b, R, xo, yo, caminho)
+  move_braco(xo, yo, a1b, a2b, da1, da2, R, caminho, tamanho)
 
 ### FIM

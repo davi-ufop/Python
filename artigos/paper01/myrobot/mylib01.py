@@ -29,16 +29,19 @@ def angulos_ponto(xp2, yp2, L1, L2):
   ### Pronto, retorno um vetor com dois valores [teta1 e teta2]
   return angulos
 
-### Função para construi as ações em uma junta do braço robótico
-### Coloque o ângulo do objeto em primeiro, depois o do braço
-def acoes_junta(a1, a2, num, da):
+### Função para construir listas de ações, ou seja, ações em uma listas:
+def acoes_listas(n1, n2, dn):     ### n1 refere-se ao alvo e n2 ao braço
+  ### Número de termos da lista
+  N = int(abs(n1-n2)//dn)
+  ### Iniciando a lista
   la = [0]
-  if (a1 < a2):
-    for i in range(num):
-      la.append(-da)
-  else:
-    for i in range(num):
-      la.append(da)
+  ### Montando a lista de ações
+  if (n1 < n2):
+    for n in range(N):
+      la.append(-dn)
+  elif (n1 > n2):
+    for n in range(N):
+      la.append(dn)
   return la
 
 ### FIM

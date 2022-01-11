@@ -5,9 +5,11 @@
 ### Importando módulos necessários
 from mylib01 import *
 from random import uniform
+from matplotlib.patches import Rectangle
+import warnings
+warnings.filterwarnings('ignore')
 
 ### Adicionando uma mesa na figura
-from matplotlib.patches import Rectangle
 rect = Rectangle((-1.7,-1.8), 3.4, 1.8, linewidth=2, edgecolor='brown', facecolor='none')
 
 ### Parâmetros e variáveis do processo
@@ -44,8 +46,8 @@ print("Serão realizadas ", nat, " ações, divididas assim: ", [na1, na2])
 
 ###### Construindo as ações - MUITO IMPORTANTE
 ### Listas para as ações nas juntas do braço
-da1 = acoes_junta(a1o, a1b, na1, dteta)
-da2 = acoes_junta(a2o, a2b, na2, dteta)
+da1 = acoes_listas(a1o, a1b, dteta)
+da2 = acoes_listas(a2o, a2b, dteta)
 
 ###### Apresentando os movimentos de acordo com
 ###### estas ações:
