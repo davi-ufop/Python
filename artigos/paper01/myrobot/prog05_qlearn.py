@@ -33,7 +33,7 @@ L1, L2 = R/2, R/2
 ############ INICIANDO A DIVERSÃO
 seed(888)
 ### Pegando 3 objetos:
-for i in range(1):
+for i in range(3):
   ########## PARÂMETROS E VARIÁEIS INICIAIS
   ### Definindo a posição do objeto, na mesa!
   print("\nObjeto ", i+1)
@@ -71,7 +71,6 @@ for i in range(1):
   ### Plotando as duas trajetórias
   salvem = "prog05/trajetoria{}.png".format(i+1)
   plot_trajetorias(vxa, vya, vxp, vyp, salvem)
-  
   ###### Realizando os movimentos para pegar o objeto
   caminho = "prog05/pegou{}.png".format(i+1)
   move_braco(xo, yo, a1, a2, la1, la2, R, caminho, tamanho)
@@ -81,7 +80,7 @@ for i in range(1):
 ### Contando estados e ações:
 AN = 9           
 ### Precisão dos estados para o treino:
-dd = 0.05
+dd = 0.04   ### Se alterar esse valor, comente a linha 113
 ### Confirmando os estados contínuos -> angulares
 saved = "prog05/estados.png"
 EN, TAG, TXY = plot_estados(R, dd, saved)
@@ -107,17 +106,23 @@ print("Estado do objeto = ", IO)
 ### Dando a recompensa para achá-lo
 qtab[IO, 8] = 20
 
-### Estabelecendo as punições
-print("\nPunições:")
-qtab = punicoes(qtab, TXY, B)
-
 ### Realizando os treinos
 print("\nTreinando -> Q-Table:")
-K = 20000000
-qtab = treino(qtab, K, TXY, dd)
-np.savetxt("qtable.csv", qtab, delimiter=',')
+K = 2000000   ### Se alterar essa linha, comente a linha 113
+#qtab = treino(qtab, K, TXY, xo, yo, dd, B)           ### Para refazer a simulação comente
+qtab = np.genfromtxt('qtable.csv', delimiter=',')   ### a linha acima e ative essa
+#np.savetxt("qtable.csv", qtab, delimiter=',')        ### Comente esta linha também 
 
 ### Apresentando a Q-table atualizada
-print(qtab[IO-15:IO+15])
+print(qtab[IO-3:IO+3])
+
+### Testando o aprendizado
+semente = eval(input("Digite a semente randômica: "))
+seed(semente)
+for i in range(3):
+  xb = round(dd*(uniform(-B, B)//dd), P)           ### Estado inicial
+  yb = round(dd*(uniform(-B, 0)//dd), P)
+  saveme = "prog05/inteligente{}.png".format(i+1)  ### Resultados
+  testeQ(qtab, TXY, xb, yb, xo, yo, dd, saveme, i+1)
 
 ### FIM"""

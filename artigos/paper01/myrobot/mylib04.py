@@ -1,10 +1,10 @@
 ### BIBLIOTECA CENTRAL PARA AS SIMULAÇÕES
 ### Davi Neves - Ouro Preto, Brasil - UFOP/2022
 ### Módulos de Python utilizados:
-import numpy as np                  ## Numérica
-import matplotlib.pyplot as pl      ## Gráfica
-from tqdm import tqdm               ## Barra de progresso
-from random import choice, seed     ## Randômico
+import numpy as np                           ## Numérica
+import matplotlib.pyplot as pl               ## Gráfica
+from tqdm import tqdm                        ## Barra de progresso
+from random import choice, randint, seed     ## Randômico
 from scipy.optimize import fsolve   ## Não Lienar
 from matplotlib.patches import Rectangle  ## Área factível
 
@@ -167,7 +167,7 @@ def move_braco(xo, yo, a1, a2, la1, la2, R, caminho, tamanho):
     pl.cla()
     ### Apenas a primeira figura vai demorar 2s, as d+ 0.004s
     if (dt > dt2):
-      dt = dt/2000
+      dt = dt/5000
     ### Contando os passos:
     passo += 1
   pl.close()
@@ -251,25 +251,6 @@ def completo(R, dd, TAB):
   ### Resultado
   return bom, ruim
 
-###### Função para estabelecer punições
-def punicoes(qtab, TXY, B):
-  ### Variações:
-  Vx = TXY[:,0]
-  Vy = TXY[:,1]
-  for xi in tqdm(Vx):
-    for yi in Vy:
-      ### Pontos fora da mesa e na zona proibida
-      if (abs(xi) > B or yi > -B):
-        ie = np.where(np.all(TXY == (xi, yi), axis=1))[0]
-        if (len(ie) > 0):
-          qtab[ie] = -0.02  ## Punição por sair da mesa
-      if (yi > 0):
-        ie = np.where(np.all(TXY == (xi, yi), axis=1))[0]
-        if (len(ie) > 0):
-          qtab[ie] = -0.4   ## Punição alta, zona proibida
-  ### Retorno
-  return qtab
-
 ###### Função para definir as ações
 def acoes(TXY, estado, acao, dx):
   ### Definindo as coordenadas do estados conforme
@@ -302,7 +283,10 @@ def acoes(TXY, estado, acao, dx):
     x1 = TXY[estado, 0]        
     x2 = TXY[estado, 1] 
   else:
-    pass
+    print("Ação mão existe!")
+  ### Ajustando as coordenadas
+  x1 = round(x1, 2)
+  x2 = round(x2, 2)
   ### Determinando o próximo estado
   proximo = np.where(np.all(TXY == (x1, x2), axis=1))[0]
   if (len(proximo) > 0):
@@ -312,32 +296,116 @@ def acoes(TXY, estado, acao, dx):
   ### Resultado
   return proximo
 
+###### Função para estabelecer as recompensas
+def recompensas(acao, xi, yi, xo, yo, B):
+  ### Recompensa por achar o objeto
+  if (xi == xo and yi == yo):
+    if (acao == 8):       ### Se encontrou, tem que escolher
+      recompensa = 10
+    else:                 ### Senão será punido
+      recompensa = -10
+  ### Mas se não achar
+  else:
+    ### Pontos fora da mesa e na zona proibida
+    if (abs(xi) > B or 0 < yi < -B):
+      recompensa  = -1.5    ## Punição por sair da mesa
+    ### Pontos sobre a amesa
+    elif (abs(xi) <= B or  0 >= yi >= -B):
+      if (acao == 8):
+        recompensa = -5     ## Punição pra não travar num lugar só
+      else:
+        recompensa = 0.05   ## Recompensa por estar na mesa
+  ### Retorno
+  return recompensa
+
 ###### Função para realizar o treino
-def treino(qtab, K, TXY, dx):
+def treino(qtab, K, TXY, xo, yo, dx, B):
   ### Parâmetros e variáveis
-  alfa = 0.15    ### Convergência do algoritmo
-  gama = 0.65
+  alfa = 0.55    ### Convergência do algoritmo
+  gama = 0.75
   NE = len(qtab)        ### Estados:
   ves = np.arange(0, NE)
   ### Realizando o treino K vezes
   for i in tqdm(range(K)):
-    ### Escolhendo o estado
-    estado = choice(ves)
     ### Possibilidade de ações
     #diagonais = [0, 1, 3, 4, 8]
     quadradas = [0, 1, 2, 3, 4, 5, 6, 7, 8]
     ### Escolhendo a k-esima acao
     #acao = choice(diagonais)
     acao = choice(quadradas)
+    ### Escolhendo o estado
+    estado = choice(ves)
+    ### Determinando a recompensa
+    xi = TXY[estado, 0]
+    yi = TXY[estado, 1]
+    recompensa = recompensas(acao, xi, yi, xo, yo, B)
     ### Definindo o proximo estado
     proximo = acoes(TXY, estado, acao, dx)
     ### Calculando a nova recompensa - Bellman:
     atual = qtab[estado, acao]
     maior = np.max(qtab[proximo])
-    novov = (1-alfa)*atual + alfa*(atual + gama*maior)
+    novov = (1-alfa)*atual + alfa*(recompensa + gama*maior)
     ### Atualizando a Q-table
-    qtab[estado, acao] = novov
+    qtab[estado, acao] = round(novov, 3)
   ### Resultado
   return qtab
+
+### Testando a Q-Table
+def testeQ(qtab, TXY, xi, yi, xo, yo, dd, caminho, NT):
+  ### Contagem e limite de operações
+  KO, LO = 0, 500
+  eps = 2*dd
+  ### Lista para plotar a trajetória inligente
+  lx, ly, le = [], [], []
+  ### Definindo o estado inicial:
+  ie = np.where(np.all(TXY == (xi, yi), axis=1))[0]
+  if (len(ie) > 0):
+    estado = int(ie[0])
+  else:
+    print("\nEstado não existe!")
+    estado = randint(0, len(qtab))
+    print("Escolhemos outro: ", estado)
+  ### Salvando o estado inicial
+  le.append(estado)
+  ### Definindo as coordenadas, caso tenhamos escolhido outro
+  xi = TXY[estado, 0]
+  yi = TXY[estado, 1]
+  ### Buscando o objeto com Q-Table
+  while (abs(xi - xo)>eps or abs(yi - yo)>eps):
+    ### Passo/Estado
+    #print("Estado atual = ", estado)
+    #print("x=", xi, " y=", yi)
+    ### Determinando a ação atual
+    acao = np.argmax(qtab[estado])
+    #print("Acao = ", acao)
+    ### Determinando o próximo estado
+    proximo = acoes(TXY, estado, acao, dd)
+    ### Atualizando os valores de xi e yi
+    xi = TXY[proximo, 0]
+    yi = TXY[proximo, 1]
+    ### Salvando nas lista
+    lx.append(xi)
+    ly.append(yi)
+    le.append(proximo)
+    ### Atualizando o estado
+    estado = proximo
+    ### Controle
+    KO += 1
+    if (KO > LO):
+      break
+  ### Resultado parcial
+  print("\nResultado:")
+  print("Objeto alcançado em ", len(le), " passos.\nEstes:\n", le)
+  ### Adicionando as coordenadas do objeto 
+  lx.append(xo)
+  ly.append(yo)
+  ### Plotando a trajetória inteligente
+  pl.plot(lx, ly, 'b-o')
+  pl.scatter(xo, yo, color='red', marker='D', s=50)
+  pl.title("Trajetória inteligente {}".format(NT))
+  pl.xlabel("X")
+  pl.ylabel("Y")
+  pl.savefig(caminho, dpi=200)
+  pl.close()
 
 ############################ FIM
