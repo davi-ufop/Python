@@ -256,31 +256,31 @@ def acoes(TXY, estado, acao, dx):
   ### Definindo as coordenadas do estados conforme
   ### as respecitvas ações
   if (acao == 0):
-    x1 = TXY[estado, 0] - dx    ### [-1, -1]      
-    x2 = TXY[estado, 1] - dx       
+    x1 = TXY[estado, 0]         ### [0, +1]      
+    x2 = TXY[estado, 1] + dx       
   elif (acao == 1):
-    x1 = TXY[estado, 0] - dx    ### [-1, +1]    
+    x1 = TXY[estado, 0] + dx    ### [+1, +1]    
     x2 = TXY[estado, 1] + dx      
   elif (acao == 2):
-    x1 = TXY[estado, 0] - dx    ### [-1, 0]     
+    x1 = TXY[estado, 0] + dx    ### [+1, 0]     
     x2 = TXY[estado, 1]        
   elif (acao == 3):
-    x1 = TXY[estado, 0] + dx      
+    x1 = TXY[estado, 0] + dx    ### [+1, -1]       
     x2 = TXY[estado, 1] - dx      
   elif (acao == 4):
-    x1 = TXY[estado, 0] + dx       
-    x2 = TXY[estado, 1] + dx       
-  elif (acao == 5):
-    x1 = TXY[estado, 0] + dx       
-    x2 = TXY[estado, 1]        
-  elif (acao == 6):
-    x1 = TXY[estado, 0]        
+    x1 = TXY[estado, 0]         ### [0, -1]    
     x2 = TXY[estado, 1] - dx       
+  elif (acao == 5):
+    x1 = TXY[estado, 0] - dx    ### [-1, -1]       
+    x2 = TXY[estado, 1] - dx       
+  elif (acao == 6):
+    x1 = TXY[estado, 0] - dx    ### [-1, 0]          
+    x2 = TXY[estado, 1]         
   elif (acao == 7):
-    x1 = TXY[estado, 0]        
-    x2 = TXY[estado, 1] + dx      
+    x1 = TXY[estado, 0] - dx    ### [-1, +1]       
+    x2 = TXY[estado, 1] + dx     
   elif (acao == 8):
-    x1 = TXY[estado, 0]        
+    x1 = TXY[estado, 0]         ### [0,  0]
     x2 = TXY[estado, 1] 
   else:
     print("Ação mão existe!")
@@ -393,9 +393,6 @@ def testeQ(qtab, TXY, xi, yi, xo, yo, dd, caminho, NT):
     KO += 1
     if (KO > LO):
       break
-  ### Resultado parcial
-  print("\nResultado:")
-  print("Objeto alcançado em ", len(le), " passos.\nEstes:\n", le)
   ### Adicionando as coordenadas do objeto 
   lx.append(xo)
   ly.append(yo)
@@ -407,5 +404,7 @@ def testeQ(qtab, TXY, xi, yi, xo, yo, dd, caminho, NT):
   pl.ylabel("Y")
   pl.savefig(caminho, dpi=200)
   pl.close()
+  ### Retorno útil
+  return le
 
 ############################ FIM

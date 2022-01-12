@@ -108,7 +108,7 @@ qtab[IO, 8] = 20
 
 ### Realizando os treinos
 print("\nTreinando -> Q-Table:")
-K = 2000000   ### Se alterar essa linha, comente a linha 113
+K = 2000000    ### Se alterar essa linha, comente a linha 113
 #qtab = treino(qtab, K, TXY, xo, yo, dd, B)           ### Para refazer a simulação comente
 qtab = np.genfromtxt('qtable.csv', delimiter=',')   ### a linha acima e ative essa
 #np.savetxt("qtable.csv", qtab, delimiter=',')        ### Comente esta linha também 
@@ -118,11 +118,28 @@ print(qtab[IO-3:IO+3])
 
 ### Testando o aprendizado
 semente = eval(input("Digite a semente randômica: "))
-seed(semente)
+seed(semente)    
+###lista = []
+###for k in tqdm(range(100, 499)):
+###  seed(k)
+###  tres = 0
 for i in range(3):
   xb = round(dd*(uniform(-B, B)//dd), P)           ### Estado inicial
   yb = round(dd*(uniform(-B, 0)//dd), P)
   saveme = "prog05/inteligente{}.png".format(i+1)  ### Resultados
-  testeQ(qtab, TXY, xb, yb, xo, yo, dd, saveme, i+1)
+  le = testeQ(qtab, TXY, xb, yb, xo, yo, dd, saveme, i+1)
+  ### Resultado do teste
+  print("\nResultado:")
+  print("Objeto alcançado em ", len(le), " passos.\nEstes:\n", le)
+###    if (len(le) < 60):
+###      tres += 1
+###  if (tres == 3):
+###    print(k)
+###    lista.append(k)
+### LISTA de Sementes Testadas, um teste do Teste!
+lista = [109, 117, 127, 131, 154, 156, 162, 166, 183, 186, 192, 197, 198, 199, 208, 213, 214, 215, 221, 223, 224, 226, 232, 235, 239, 250, 257, 262, 267, 279, 286, 290, 293, 294, 301, 306, 308, 309, 313, 314, 315, 317, 320, 337, 340, 355, 357, 375, 381, 382, 393, 396, 399, 406, 412, 418, 428, 430, 434, 436, 440, 442, 458, 467, 480, 482, 483, 485, 486, 498]
 
-### FIM"""
+### Eficiência
+print("\nEficiência do processo = ", round(len(lista)/399, 2))
+
+### FIM
