@@ -11,7 +11,7 @@ python3 lorenz_system.py
 ### Criando o vídeo
 cd frames
 ffmpeg -framerate 25 -i %03d.png movie_${K}.avi     ## Comando principal
-rm *.png
+#rm *.png
 cd ..
 mv frames/* movies/
 
