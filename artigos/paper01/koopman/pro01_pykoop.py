@@ -24,6 +24,7 @@ f1 = np.multiply(sech(Xgrid+3), np.exp(1j*omega1*Tgrid))
 f2 = np.multiply( np.multiply(sech(Xgrid), np.tanh(Xgrid)), 2*np.exp(1j*omega2*Tgrid))
 f = f1 + f2
 
+
 def plot_dynamics(Xgrid, Tgrid, f, fig=None, title='', subplot=111):
     if fig is None:
         fig = plt.figure(figsize=(12, 4))

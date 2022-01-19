@@ -109,9 +109,9 @@ qtab[IO, 8] = 20
 ### Realizando os treinos
 print("\nTreinando -> Q-Table:")
 K = 2000000    ### Se alterar essa linha, comente a linha 113
-#qtab = treino(qtab, K, TXY, xo, yo, dd, B)           ### Para refazer a simulação comente
-qtab = np.genfromtxt('qtable.csv', delimiter=',')   ### a linha acima e ative essa
-#np.savetxt("qtable.csv", qtab, delimiter=',')        ### Comente esta linha também 
+#qtab = treino(qtab, K, TXY, xo, yo, dd, B)                ### Para refazer a simulação comente
+qtab = np.genfromtxt('prog05/qtable.csv', delimiter=',')   ### a linha acima e ative essa
+#np.savetxt("prog05/qtable.csv", qtab, delimiter=',')      ### Comente esta linha também 
 
 ### Apresentando a Q-table atualizada
 print(qtab[IO-3:IO+3])
