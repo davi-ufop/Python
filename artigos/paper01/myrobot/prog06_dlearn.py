@@ -100,7 +100,7 @@ pl.savefig("prog06/lossfunction.png", dpi=200)
 print("\nResultados:")
 for i in tqdm(range(N95+1, NF)):
   ### Construindo os dados para entradas e verificações
-  imag3 = np.genfromtxt("prog06/data/out_{:04d}.csv".format(i), delimiter=',')
+  imag3 = np.genfromtxt("prog06/data/out_{:04d}.csv".format(i), delimiter=",")
   tensor3 = transforme(imag3)
   polimento = nn.MaxPool2d(kernel_size=4, stride=2, return_indices=True)
   tensor3, indice = polimento(tensor3)
@@ -112,6 +112,7 @@ for i in tqdm(range(N95+1, NF)):
   resultado = resultado.view(128, 128)
   ### Salvando as figuras da previsões
   figura = resultado.detach().numpy()
+  np.savetxt("prog06/data/prev_{:04d}.csv".format(i), figura, delimiter=",") 
   pl.imshow(figura)
   pl.savefig("prog06/resultados/prev_{}.png".format(i))
   pl.clf()
@@ -119,38 +120,96 @@ for i in tqdm(range(N95+1, NF)):
   pl.imshow(imag3)
   pl.savefig("prog06/resultados/real_{}.png".format(i))
   pl.clf()
+  ### Correlação - Dados e Previsão
+  rotulos = ['Data', 'Forecast']
+  COR = []
+  for k in range(128):
+    MCK = np.corrcoef(imag3[:, k], figura[:, k])
+    MCK = np.nan_to_num(MCK, nan=1.0)
+    COR.append(MCK[0,1])
+  CORM = np.mean(COR)
+  MCS = np.array([[1, CORM], [CORM, 1]]) 
+  # Plotando e salvando
+  pl.matshow(abs(MCS), cmap=pl.cm.BrBG, vmin=-1., vmax=1.)
+  pl.colorbar()
+  pl.title('(Columns)', y=-0.1)
+  pl.gca().set_xticklabels(['']+rotulos)
+  pl.gca().set_yticklabels(['']+rotulos)
+  pl.savefig("prog06/resultados/corr_{:03d}.png".format(i), dpi=500)
+  pl.clf()
 
-### Montagem interessante
+### Montages interessante
+# imagens
 num1, num2 = 481, 497
-pl.figure(figsize=(15,10))
-imagem = imread("prog06/imgs/traj_{:04d}.png".format(num1))
+imagem1 = imread("prog06/imgs/traj_{:04d}.png".format(num1))
+imagem2 = imread("prog06/resultados/real_{:03d}.png".format(num1))
+imagem3 = imread("prog06/resultados/prev_{:03d}.png".format(num1))
+imagem4 = imread("prog06/imgs/traj_{:04d}.png".format(num2))
+imagem5 = imread("prog06/resultados/real_{:03d}.png".format(num2))
+imagem6 = imread("prog06/resultados/prev_{:03d}.png".format(num2))
+# figura settings
+pl.figure(figsize=(15,10), dpi=400)
+# 1
 pl.subplot(2, 3, 1)
-pl.imshow(imagem)
+pl.imshow(imagem1)
 pl.title("( A )", y=-0.15)
-imagem = imread("prog06/resultados/real_{:03d}.png".format(num1))
+# 2
 pl.subplot(2, 3, 2)
 pl.axis('off')
-pl.imshow(imagem)
+pl.imshow(imagem2)
 pl.title("( B )", y=-0.1)
-imagem = imread("prog06/resultados/prev_{:03d}.png".format(num1))
+# 3
 pl.subplot(2, 3, 3)
 pl.axis('off')
-pl.imshow(imagem)
+pl.imshow(imagem3)
 pl.title("( C )", y=-0.1)
-imagem = imread("prog06/imgs/traj_{:04d}.png".format(num2))
+# 4
 pl.subplot(2, 3, 4)
-pl.imshow(imagem)
+pl.imshow(imagem4)
 pl.title("( D )", y=-0.15)
-imagem = imread("prog06/resultados/real_{:03d}.png".format(num2))
+# 5
 pl.subplot(2, 3, 5)
 pl.axis('off')
-pl.imshow(imagem)
+pl.imshow(imagem5)
 pl.title("( E )", y=-0.1)
-imagem = imread("prog06/resultados/prev_{:03d}.png".format(num2))
+# 6
 pl.subplot(2, 3, 6)
 pl.axis('off')
-pl.imshow(imagem)
+pl.imshow(imagem6)
 pl.title("( F )", y=-0.1)
-pl.savefig("prog06/montagem.png")
+# save
+pl.savefig("prog06/montagem1.png")
+pl.clf()
+
+### Correlação
+# imagens
+imagem1 = imread("prog06/imgs/traj_{:04d}.png".format(num1))
+imagem2 = imread("prog06/resultados/real_{:03d}.png".format(num1))
+imagem3 = imread("prog06/resultados/prev_{:03d}.png".format(num1))
+imagem4 = imread("prog06/resultados/corr_{:03d}.png".format(num1))
+# figura settings
+pl.figure(figsize=(10,10), dpi=500)
+# 1
+pl.subplot(2, 2, 1)
+pl.imshow(imagem1)
+pl.title("( A )", y=-0.15)
+# 2
+pl.subplot(2, 2, 2)
+pl.axis('off')
+pl.imshow(imagem2)
+pl.title("( B )", y=-0.1)
+# 3
+pl.subplot(2, 2, 3)
+pl.axis('off')
+pl.imshow(imagem3)
+pl.title("( C )", y=-0.1)
+# 4
+pl.subplot(2, 2, 4)
+pl.axis('off')
+pl.imshow(imagem4)
+pl.title("( D )", y=-0.1)
+# save
+pl.savefig("prog06/montagem2.png")
+pl.clf()
 
 ### FIM
