@@ -45,8 +45,8 @@ for i in tqdm(range(N)):
   Xp = modelo.predict(F)                   ### Com o predict()
   Xs = modelo.simulate(F[0], n_steps=700)  ### Com o simulate()
   ### Salvando as trajetorias previstas e simuladas
-  np.savetxt(DDP+"prev_{:02d}.csv".format(i+1), Xp, delimiter=",")
-  np.savetxt(DDP+"sims_{:02d}.csv".format(i+1), Xs, delimiter=",")
+  np.savetxt(DDP+"prev_{:02d}.csv".format(i+1), Xp.real, delimiter=",")
+  np.savetxt(DDP+"sims_{:02d}.csv".format(i+1), Xs.real, delimiter=",")
   ### Previsão das medidas
   X1p, X2p, X3p, X4p = Xp[:,0], Xp[:,1], Xp[:,2], Xp[:,3]
   ### Correlação entre dados e previsões e dos métodos do pacote
