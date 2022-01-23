@@ -71,7 +71,7 @@ np.savetxt("prog10/data/stats.csv", np.array([media, desvio]), delimiter=",")
 
 ### O verdadeiro teste!
 LAG, LXY, LMo = [], [], []    # Listas de registros
-obs = pendulo.reset()      # Reiniciando o sistema
+obs = pendulo.reset()         # Reiniciando o sistema
 ko = 0                  # Contador de sucesso: objetivo é pegar 3 objetos
 for i in range(1000):   # 1000 testes
   alvo = [obs[4], obs[5]]
@@ -91,11 +91,11 @@ for i in range(1000):   # 1000 testes
     Q2 = VAG[0,1]
     ### Ângulo e velocidade da primeira junta
     teta = VAG[:, 0]
-    omega1 = np.diff(teta, n=1) / dt
+    omega1 = np.diff(teta, n=1)/dt
     teta1 = teta[0:N]
     ### Ângulo e velocidade da segunda junta
     teta = VAG[:, 1]
-    omega2 = np.diff(teta, n=1) / dt
+    omega2 = np.diff(teta, n=1)/dt
     teta2 = teta[0:N]
     ### Buscando soluções referentes ao sistema de equações diferenciais
     x0 = [Q1, Q2, teta1[N-1], teta2[N-1]]   # Condição Inicial
@@ -112,6 +112,9 @@ for i in range(1000):   # 1000 testes
     ### Coordenadas X e Y
     Xm, Ym = np.sin(La1)+np.sin(La2), np.cos(La1)+np.cos(La2)
     Xs, Ys = np.sin(teta1)+np.sin(teta2), np.cos(teta1)+np.cos(teta2)
+    ### Salvando para análise
+    np.savetxt("prog10/data/motor_{:02d}.csv".format(ko+1), np.hstack((Xm, Ym)), delimiter=",")
+    np.savetxt("prog10/data/prevs_{:02d}.csv".format(ko+1), np.hstack((Xs, Ys)), delimiter=",")
     ### Plotando o resultado principal - Espaço de fases
     pl.figure(figsize=(8,4), dpi=480)
     pl.plot(Xm, Ym, 'b-.', label="motor")

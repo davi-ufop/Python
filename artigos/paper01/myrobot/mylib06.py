@@ -10,7 +10,9 @@ from tqdm import tqdm
 np.random.seed(888)
 ### Número de simulações
 N = 50      
-t = np.arange(0, 20, 0.01)
+tmax = 20
+dt = 0.01
+t = np.arange(0, tmax, dt)
 
 ###### SISTEMA: PÊNDULO DUPLO
 ### Parâmetros 

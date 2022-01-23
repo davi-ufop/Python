@@ -22,6 +22,7 @@ DKL = "prog07/koopman/lorenz/"
 
 ### Parâmetros de mylib06,py
 N = 50
+dt = 0.01
 
 ###### PÊNDULO DUPLO
 ### Importando dados
@@ -39,10 +40,13 @@ for i in tqdm(range(N)):
   ### Determinando o operador (matriz) de Koopman
   modelo = kp.Koopman()             ### Modelo de Koopman Simples
   modelo.fit(F)                     ### Ajustando os dados
-  K = modelo.koopman_matrix.real    ### Determinando a matrix do operador
+  K = modelo.koopman_matrix         ### Determinando a matrix do operador
   ### Fazendo a reconstrução (rebuild) das trajetórias
   Xp = modelo.predict(F)                   ### Com o predict()
   Xs = modelo.simulate(F[0], n_steps=700)  ### Com o simulate()
+  ### Salvando as trajetorias previstas e simuladas
+  np.savetxt(DDP+"prev_{:02d}.csv".format(i+1), Xp, delimiter=",")
+  np.savetxt(DDP+"sims_{:02d}.csv".format(i+1), Xs, delimiter=",")
   ### Previsão das medidas
   X1p, X2p, X3p, X4p = Xp[:,0], Xp[:,1], Xp[:,2], Xp[:,3]
   ### Correlação entre dados e previsões e dos métodos do pacote
@@ -66,10 +70,27 @@ for i in tqdm(range(N)):
   np.savetxt(DKP+"corr300{:02d}.csv".format(i+1), MC300, delimiter=",")
   np.savetxt(DKP+"corr500{:02d}.csv".format(i+1), MC500, delimiter=",")
   np.savetxt(DKP+"corr700{:02d}.csv".format(i+1), MC700, delimiter=",")
-  ### Koopman
-  pl.matshow(K)
-  pl.title('(K)', y=-0.1)
+  ### Koopman Eigenvetors an Eigenvalues
+  autova, autove = np.linalg.eig(K)      ## Determinando
+  #autova_cont = autova/dt               ## Ajustando para valores continuos [1]
+  ### Representando os eigenvetors
+  EK = autove.real                       ## Matriz de autovetroes
+  pl.matshow(EK)
+  pl.title('(Koopman eigenvectors)', y=-0.1)
   pl.savefig(DIP+"operador{:02d}.png".format(i+1), dpi=200)
+  pl.clf()
+  ### Representando os eigenvalues
+  Xva = [xva.real for xva in autova]     ## Partes real e imaginária
+  Yva = [yva.imag for yva in autova]     ## dos autovalores
+  pl.figure(figsize=(6,5), dpi=300)
+  circulo = pl.Circle((0,0), 1, color='red', ls="--", lw=1.5, fill=False)
+  pl.scatter(Xva, Yva, color='blue', s=60)
+  pl.gca().add_patch(circulo)
+  pl.xlim(-1.2, 1.2)
+  pl.ylim(-1.3, 1.3)
+  pl.xlabel("real")
+  pl.ylabel("imaginary")
+  pl.savefig(DIP+"valores{:02d}.png".format(i+1))
   pl.clf()
   ### Corelação Dados e Previsões - X1
   rotulos = ['Data', 'Forecast']
@@ -266,10 +287,13 @@ for i in tqdm(range(N)):
   ### Determinando o operador (matriz) de Koopman
   modelo = kp.Koopman()             ### Modelo de Koopman Simples
   modelo.fit(F)                     ### Ajustando os dados
-  K = modelo.koopman_matrix.real    ### Determinando a matrix do operador
+  K = modelo.koopman_matrix         ### Determinando a matrix do operador
   ### Fazendo a reconstrução (rebuild) das trajetórias
   Xp = modelo.predict(F)                   ### Com o predict()
   Xs = modelo.simulate(F[0], n_steps=900)  ### Com o simulate()
+  ### Salvando as trajetorias previstas e simuladas
+  np.savetxt(DDL+"prev_{:02d}.csv".format(i+1), Xp, delimiter=",")
+  np.savetxt(DDL+"sims_{:02d}.csv".format(i+1), Xs, delimiter=",")
   ### Previsão das medidas
   X1p, X2p, X3p = Xp[:,0], Xp[:,1], Xp[:,2]
   ### Correlação entre dados e previsões e dos métodos do pacote
@@ -289,10 +313,27 @@ for i in tqdm(range(N)):
   np.savetxt(DKL+"corr100{:02d}.csv".format(i+1), MC100, delimiter=",")
   np.savetxt(DKL+"corr500{:02d}.csv".format(i+1), MC500, delimiter=",")
   np.savetxt(DKL+"corr900{:02d}.csv".format(i+1), MC900, delimiter=",")
-  ### Koopman
-  pl.matshow(K)
-  pl.title('(K)', y=-0.1)
+  ### Koopman Eigenvetors an Eigenvalues
+  autova, autove = np.linalg.eig(K)      ## Determinando
+  #autova_cont = autova/dt               ## Ajustando para valores continuos [1]
+  ### Representando os eigenvetors
+  EK = autove.real                       ## Matriz de autovetroes
+  pl.matshow(EK)
+  pl.title('(Koopman eigenvectors)', y=-0.1)
   pl.savefig(DIL+"operador{:02d}.png".format(i+1), dpi=200)
+  pl.clf()
+  ### Representando os eigenvalues
+  Xva = [xva.real for xva in autova]     ## Partes real e imaginária
+  Yva = [yva.imag for yva in autova]     ## dos autovalores
+  pl.figure(figsize=(6,5), dpi=300)
+  circulo = pl.Circle((0,0), 1, color='red', ls="--", lw=1.5, fill=False)
+  pl.scatter(Xva, Yva, color='blue', s=60)
+  pl.gca().add_patch(circulo)
+  pl.xlim(-1.2, 1.2)
+  pl.ylim(-1.3, 1.3)
+  pl.xlabel("real")
+  pl.ylabel("imaginary")
+  pl.savefig(DIL+"valores{:02d}.png".format(i+1))
   pl.clf()
   ### Corelação Dados e Previsões - X1
   rotulos = ['Data', 'Forecast']
@@ -461,10 +502,13 @@ for i in tqdm(range(N)):
   ### Determinando o operador (matriz) de Koopman
   modelo = kp.Koopman()             ### Modelo de Koopman Simples
   modelo.fit(F)                     ### Ajustando os dados
-  K = modelo.koopman_matrix.real    ### Determinando a matrix do operador
+  K = modelo.koopman_matrix         ### Determinando a matrix do operador
   ### Fazendo a reconstrução (rebuild) das trajetórias
   Xp = modelo.predict(F)                   ### Com o predict()
   Xs = modelo.simulate(F[0], n_steps=900)  ### Com o simulate()
+  ### Salvando as trajetorias previstas e simuladas
+  np.savetxt(DDS+"prev_{:02d}.csv".format(i+1), Xp, delimiter=",")
+  np.savetxt(DDS+"sims_{:02d}.csv".format(i+1), Xs, delimiter=",")
   ### Previsão das medidas
   X1p, X2p = Xp[:,0], Xp[:,1]
   ### Correlação entre dados e previsões e dos métodos do pacote
@@ -480,10 +524,27 @@ for i in tqdm(range(N)):
   np.savetxt(DKS+"corrprev2{:02d}.csv".format(i+1), MCDP2, delimiter=",")
   np.savetxt(DKS+"corr100{:02d}.csv".format(i+1), MC100, delimiter=",")
   np.savetxt(DKS+"corr900{:02d}.csv".format(i+1), MC900, delimiter=",")
-  ### Koopman
-  pl.matshow(K)
-  pl.title('(K)', y=-0.1)
+  ### Koopman Eigenvetors an Eigenvalues
+  autova, autove = np.linalg.eig(K)      ## Determinando
+  #autova_cont = autova/dt               ## Ajustando para valores continuos [1]
+  ### Representando os eigenvetors
+  EK = autove.real                       ## Matriz de autovetroes
+  pl.matshow(EK)
+  pl.title('(Koopman eigenvectors)', y=-0.1)
   pl.savefig(DIS+"operador{:02d}.png".format(i+1), dpi=200)
+  pl.clf()
+  ### Representando os eigenvalues
+  Xva = [xva.real for xva in autova]     ## Partes real e imaginária
+  Yva = [yva.imag for yva in autova]     ## dos autovalores
+  pl.figure(figsize=(6,5), dpi=300)
+  circulo = pl.Circle((0,0), 1, color='red', ls="--", lw=1.5, fill=False)
+  pl.scatter(Xva, Yva, color='blue', s=60)
+  pl.gca().add_patch(circulo)
+  pl.xlim(-1.2, 1.2)
+  pl.ylim(-1.3, 1.3)
+  pl.xlabel("real")
+  pl.ylabel("imaginary")
+  pl.savefig(DIS+"valores{:02d}.png".format(i+1))
   pl.clf()
   ### Corelação Dados e Previsões - X1
   rotulos = ['Data', 'Forecast']
