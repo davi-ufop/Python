@@ -8,26 +8,26 @@ import nolds as nd
 ###### IMPORTANDO OS DADOS
 from random import choice
 ### Prog06: Dados e Previsões
-N6 = choice(np.arange(477, 499))
+N6 = 487#choice(np.arange(477, 499))
 print("N6: ", N6)
 traj6_D = np.genfromtxt("prog06/data/out_{:04d}.csv".format(N6), delimiter=",")
 traj6_P = np.genfromtxt("prog06/data/prev_{:04d}.csv".format(N6), delimiter=",")
 ### Prog07: Dados, Previsões e Simulações
-N7 = choice(np.arange(10, 49))
+N7 = 19#choice(np.arange(10, 49))
 print("N7: ", N7)
 traj7_D = np.genfromtxt("prog07/data/dpendulo/saida{:02d}.csv".format(N7), delimiter=",")
 traj7_P = np.genfromtxt("prog07/data/dpendulo/prev_{:02d}.csv".format(N7), delimiter=",")
 traj7_S = np.genfromtxt("prog07/data/dpendulo/sims_{:02d}.csv".format(N7), delimiter=",")
 ### Prog10: Dados e Previsões
-NX = choice(np.arange(1, 9))
+NX = 6#choice(np.arange(1, 9))
 print("NX: ", NX)
 trajX_D = np.genfromtxt("prog10/data/motor_{:02d}.csv".format(NX), delimiter=",")
 trajX_P = np.genfromtxt("prog10/data/prevs_{:02d}.csv".format(NX), delimiter=",")
 
 ###### TRATAMENTO DOS DADOS
 ### PROG06 -> Tranformnado as figuras em curvas
-YD = fig_to_curve(traj6_D, "prog11/imgs/traj6d.png")   # 452
-YP = fig_to_curve(traj6_P, "prog11/imgs/traj6p.png")   # ???
+YD = fig_to_curve1(traj6_D, "prog11/imgs/traj6d.png")   # 452
+YP = fig_to_curve2(traj6_P, "prog11/imgs/traj6p.png")   # ???, varia com a figura
 ### PROG07 -> Pegando apenas a primeira coordenada
 X1D = traj7_D[:,0]  # 2000
 X1P = traj7_P[:,0]  # 2000
@@ -39,11 +39,11 @@ lyp6D = nd.lyap_r(YD)
 entrop6D = nd.sampen(YD)
 #corr6D = nd.corr_dim(YD)
 hurst6D = nd.hurst_rs(YD)
-"""### Lyapunov, entropia, correlação e Hurst
-lyp6P = nd.lyap_r(YP)
+### Lyapunov, entropia, correlação e Hurst
+#lyp6P = nd.lyap_r(YP)
 entrop6P = nd.sampen(YP)
 #corr6P = nd.corr_dim(YP)
-hurst6P = nd.hurst_rs(YP)"""
+hurst6P = nd.hurst_rs(YP)
 
 ###### MEDIDAS TOPOLÓGICAS DE 07
 ### Lyapunov, entropia e Hurst
@@ -77,6 +77,9 @@ print("\tLiapunov 6D:", round(lyp6D, 3))
 print("\tEntropia 6D:", round(entrop6D, 3))
 #print("\tDim. Fractal 6D:", round(corr6D, 3))
 print("\tHurst 6D:", round(hurst6D, 3))
+# Entropia e Hurst
+print("\n\tEntropia 6P:", round(entrop6P, 3))
+print("\tHurst 6P:", round(hurst6P, 3))
 
 ### Prog07
 # Lyapunov, entropia e Hurst
