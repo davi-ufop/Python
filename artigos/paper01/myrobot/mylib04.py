@@ -92,9 +92,9 @@ def varia_estados(xk, yk, lx, ly):
 def plot_trajetorias(vxa, vya, vxp, vyp, caminho):
   ### Plot simples
   pl.clf()
-  pl.plot(vxa, vya, 'r-.', label='Angular')
-  pl.plot(vxp, vyp, 'b-.', label='Cartesiano')
-  pl.title("Trajetórias dos estados")
+  pl.plot(vxa, vya, 'r-.', label='Pendulum')
+  pl.plot(vxp, vyp, 'b-.', label='Linear')
+  pl.title("Alternative paths")
   pl.xlabel("X")
   pl.ylabel("Y")
   pl.legend()
@@ -137,24 +137,24 @@ def move_braco(xo, yo, a1, a2, la1, la2, R, caminho, tamanho):
     ### Textos na figura, começando pelo estado e passo da simulação
     ang1 = 180*a1/np.pi
     ang2 = 180*a2/np.pi
-    texto1 = str("Estado: {:.1f}°({:.2f}) e {:.1f}°({:.2f}) ".format(ang1, a1, ang2, a2))
-    texto2 = str("  => Passo: {}".format(passo+1))
+    texto1 = str("State: {:.1f}°({:.2f}) and {:.1f}°({:.2f}) ".format(ang1, a1, ang2, a2))
+    texto2 = str("  => Step: {}".format(passo+1))
     textoT = texto1 + texto2
     pl.title(textoT)
     ### Agora conferindo o tamanho dos braços, no eixo X
     texto3 = str("|b1| = {:.1f}".format(np.sqrt(x1*x1 + y1*y1))) 
-    texto4 = str(" e |b2| = {:.1f}".format(np.sqrt(dx*dx + dy*dy)))
+    texto4 = str(" and |b2| = {:.1f}".format(np.sqrt(dx*dx + dy*dy)))
     textoX = texto3 + texto4
     pl.xlabel(textoX)
     ### Por fim a distância objeto--braço e a posição do objeto no eixo Y
-    texto5 = str("|ob| = {:.3f}  se ".format(dob))
+    texto5 = str("|ob| = {:.3f}  if ".format(dob))
     texto6 = str("[x, y] = [{:.2f}, {:.2f}]".format(xo, yo))
     textoY = texto5 + texto6
     pl.ylabel(textoY)
     ### Um extra, adicionando as ações no canto direito e o estado no esquerdo
-    txtaco = str("Ação:\nBraço1 = {:.2f}\nBraço2 = {:.2f}".format(ac[0], ac[1]))
+    txtaco = str("Action:\nArm 1 = {:.2f}\nArm 2 = {:.2f}".format(ac[0], ac[1]))
     pl.text(R-0.99, 0.15, txtaco)
-    txtstt = str("Ponta:\nX = {:.2f}\nY = {:.2f}".format(x2, y2))
+    txtstt = str("Reacher:\nX = {:.2f}\nY = {:.2f}".format(x2, y2))
     pl.text(-R+0.4, 0.15, txtstt)
     ### Condição de parada
     if (dob < tamanho):
@@ -217,10 +217,10 @@ def plot_estados(R, dd, caminho):
   pl.scatter(lx1, lx2, color='red', marker='.')
   pl.xlim(-R, R)
   pl.ylim(-R, 0.5)
-  pl.title("Estados angulares factíveis")
+  pl.title("Angles states feasibles")
   pl.xlabel("X")
   pl.ylabel("Y")
-  pl.text(0, 0.2, "Número de estados = {}".format(NE))
+  pl.text(0, 0.2, "Number of states = {}".format(NE))
   pl.gca().add_patch(rect)         ## Adicionando uma Mesa (Retângulo)
   pl.savefig(caminho, dpi=200)     ## Salvando
   pl.close()
@@ -283,7 +283,7 @@ def acoes(TXY, estado, acao, dx):
     x1 = TXY[estado, 0]         ### [0,  0]
     x2 = TXY[estado, 1] 
   else:
-    print("Ação mão existe!")
+    print("Ação não existe!")
   ### Ajustando as coordenadas
   x1 = round(x1, 2)
   x2 = round(x2, 2)
@@ -399,7 +399,7 @@ def testeQ(qtab, TXY, xi, yi, xo, yo, dd, caminho, NT):
   ### Plotando a trajetória inteligente
   pl.plot(lx, ly, 'b-o')
   pl.scatter(xo, yo, color='red', marker='D', s=50)
-  pl.title("Trajetória inteligente {}".format(NT))
+  pl.title("Smart trajectory {}".format(NT))
   pl.xlabel("X")
   pl.ylabel("Y")
   pl.savefig(caminho, dpi=200)

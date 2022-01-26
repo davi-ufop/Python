@@ -64,24 +64,24 @@ def move_braco(xo, yo, a1b, a2b, da1, da2, R, caminho, tamanho):
     ### Textos na figura, começando pelo estado e passo da simulação
     ang1 = 180*a1b/np.pi
     ang2 = 180*a2b/np.pi
-    texto1 = str("Ângulos: {:.1f}° e {:.1f}° ".format(ang1, ang2))
-    texto2 = str("  => Passo: {}".format(passo+1))
+    texto1 = str("Angles: {:.1f}° and {:.1f}° ".format(ang1, ang2))
+    texto2 = str("  => Step: {}".format(passo+1))
     textoT = texto1 + texto2
     pl.title(textoT)
     ### Agora conferindo o tamanho dos braços, no eixo X
     texto3 = str("|b1| = {:.1f}".format(np.sqrt(x1*x1 + y1*y1))) 
-    texto4 = str(" e |b2| = {:.1f}".format(np.sqrt(dx*dx + dy*dy)))
+    texto4 = str(" and |b2| = {:.1f}".format(np.sqrt(dx*dx + dy*dy)))
     textoX = texto3 + texto4
     pl.xlabel(textoX)
     ### Por fim a distância objeto--braço e a posição do objeto no eixo Y
-    texto5 = str("|ob| = {:.3f}  se ".format(dob))
+    texto5 = str("|ob| = {:.3f}  if ".format(dob))
     texto6 = str("[x, y] = [{:.2f}, {:.2f}]".format(xo, yo))
     textoY = texto5 + texto6
     pl.ylabel(textoY)
     ### Um extra, adicionando as ações no canto direito e o estado no esquerdo
-    txtaco = str("Ação:\nBraço1 = {:.2f}\nBraço2 = {:.2f}".format(ac[0], ac[1]))
+    txtaco = str("Action:\nArm 1 = {:.2f}\nArm 2 = {:.2f}".format(ac[0], ac[1]))
     pl.text(R-0.99, 0.15, txtaco)
-    txtstt = str("Estado:\nX = {:.2f}\nY = {:.2f}".format(x2, y2))
+    txtstt = str("State:\nX = {:.2f}\nY = {:.2f}".format(x2, y2))
     pl.text(-R+0.4, 0.15, txtstt)
     ### Condição de parada
     if (dob < tamanho):

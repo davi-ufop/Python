@@ -58,7 +58,7 @@ modelo1 = SAC('MlpPolicy', pendulo, verbose=1)
 #modelo1.learn(total_timesteps=int(2e5))
 ### Salvando o modelo treinado!!!
 #modelo1.save("prog10/data/modelo10")
-### As duas etapas acima gasta 17 MINUTOS, ative
+### As duas etapas acima gastam 17 MINUTOS, ative
 ### os comandos acima na primeira simulação! 
 
 ### Metodologia para comparar dois modelos, basta não deletar
@@ -119,9 +119,9 @@ for i in range(1000):   # 1000 testes
     pl.figure(figsize=(8,4), dpi=480)
     pl.plot(Xm, Ym, 'b-.', label="motor")
     pl.plot(Xs, Ys, 'r-', label="sac-rl")
-    pl.title("Paths to $x_0$ = "+str(list(x0)))
-    pl.xlabel("$q_1$")
-    pl.ylabel("$q_2$")
+    #pl.title("Paths to $x_0$ = "+str(list(x0)))
+    pl.xlabel("$X$")
+    pl.ylabel("$Y$")
     pl.legend()
     pl.savefig("prog10/imgs/efases{:02d}.png".format(ko+1))
     pl.clf()

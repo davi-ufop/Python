@@ -25,8 +25,8 @@ warnings.filterwarnings('ignore')
 ### Parâmetros e variáveis do processo
 R = 2             ### Dimensões do ambiente 
 B = R/np.sqrt(2)  ### Alcance máximo do braço
-dteta = 0.05      ### Tamanho da variação angular, valor adequado! Não aletere!
-tamanho = 0.05    ### Dimensão do objeto
+dteta = 0.04      ### Tamanho da variação angular, valor adequado! Não aletere!
+tamanho = 0.04    ### Dimensão do objeto
 P = 2             ### Precisão das medidas
 L1, L2 = R/2, R/2
 
