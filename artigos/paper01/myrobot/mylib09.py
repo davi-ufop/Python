@@ -80,14 +80,15 @@ def plot_traj_caos(A, caminho):
   X = np.cos(L1) + np.cos(L2)
   Y = np.sin(L1) + np.sin(L2)
   ### Plotando a trajetória
+  pl.figure(figsize=(5,4), dpi=300)
   pl.scatter(X[0], Y[0], color='red', marker='D', s=60, label="first")
   pl.scatter(X[N], Y[N], color='black', marker='D', s=60, label="end")
   pl.plot(X, Y, 'b-', alpha=0.45)
   pl.title("Chaotic Path")
-  pl.xlabel("q1")
-  pl.ylabel("q2")
+  pl.xlabel("X")
+  pl.ylabel("Y")
   pl.legend()
-  pl.savefig(caminho, dpi=350)
+  pl.savefig(caminho)
   pl.clf()
 
 ### FIM

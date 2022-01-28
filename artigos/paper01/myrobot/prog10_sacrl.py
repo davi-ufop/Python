@@ -73,7 +73,7 @@ np.savetxt("prog10/data/stats.csv", np.array([media, desvio]), delimiter=",")
 LAG, LXY, LMo = [], [], []    # Listas de registros
 obs = pendulo.reset()         # Reiniciando o sistema
 ko = 0                  # Contador de sucesso: objetivo é pegar 3 objetos
-for i in range(1000):   # 1000 testes
+for i in range(3000):   # 1000 testes
   alvo = [obs[4], obs[5]]
   acao, estado = modelo2.predict(obs, deterministic=True)      # Previsão
   obs, recompensa, pronto, info = pendulo.step(acao)           # Passo
@@ -153,7 +153,7 @@ for i in range(1000):   # 1000 testes
     ### Plotando a matriz de correlação - Ângulo 1
     pl.matshow(abs(MCA1), cmap=pl.cm.BrBG, vmin=-1., vmax=1.)
     pl.colorbar()
-    pl.title('(Corr-Angle 1)', y=-0.1)
+    pl.title('(Corr-$Theta_1$)', y=-0.1)
     pl.gca().set_xticklabels(['']+rotulos)
     pl.gca().set_yticklabels(['']+rotulos)
     pl.savefig("prog10/imgs/corr_a1{:02d}.png".format(ko+1), dpi=500)
@@ -161,7 +161,7 @@ for i in range(1000):   # 1000 testes
     ### Plotando a matriz de correlação - Ângulo 2
     pl.matshow(abs(MCA2), cmap=pl.cm.BrBG, vmin=-1., vmax=1.)
     pl.colorbar()
-    pl.title('(Corr-Angle 2)', y=-0.1)
+    pl.title('(Corr-$Theta_2$)', y=-0.1)
     pl.gca().set_xticklabels(['']+rotulos)
     pl.gca().set_yticklabels(['']+rotulos)
     pl.savefig("prog10/imgs/corr_a2{:02d}.png".format(ko+1), dpi=500)
@@ -172,7 +172,7 @@ for i in range(1000):   # 1000 testes
     ### Reiniciando o sistema
     pendulo.reset()      # Reinicia o sistema
     ko += 1
-    if (ko > 9):         # Até 10: ko = 0, 1, .., 9
+    if (ko > 29):         # Até 30: ko = 0, 1, .., 29
       break
 
 ###### Montagem 1

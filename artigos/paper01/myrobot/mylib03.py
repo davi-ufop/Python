@@ -67,26 +67,32 @@ def move_braco(xo, yo, a1b, a2b, da1, da2, R, caminho, tamanho):
     texto1 = str("Angles: {:.1f}° and {:.1f}° ".format(ang1, ang2))
     texto2 = str("  => Step: {}".format(passo+1))
     textoT = texto1 + texto2
-    pl.title(textoT)
+    pl.title(" ") # textoT
     ### Agora conferindo o tamanho dos braços, no eixo X
     texto3 = str("|b1| = {:.1f}".format(np.sqrt(x1*x1 + y1*y1))) 
     texto4 = str(" and |b2| = {:.1f}".format(np.sqrt(dx*dx + dy*dy)))
     textoX = texto3 + texto4
-    pl.xlabel(textoX)
+    pl.xlabel("X")  # textoX
     ### Por fim a distância objeto--braço e a posição do objeto no eixo Y
     texto5 = str("|ob| = {:.3f}  if ".format(dob))
     texto6 = str("[x, y] = [{:.2f}, {:.2f}]".format(xo, yo))
     textoY = texto5 + texto6
-    pl.ylabel(textoY)
+    pl.ylabel("Y")  # textoY
     ### Um extra, adicionando as ações no canto direito e o estado no esquerdo
     txtaco = str("Action:\nArm 1 = {:.2f}\nArm 2 = {:.2f}".format(ac[0], ac[1]))
-    pl.text(R-0.99, 0.15, txtaco)
+    bracco1 = str("(x1, y1) = ({:.2f}, {:.2f})".format(x1, y1)) 
+    bracco2 = str("(x2, y2) = ({:.2f}, {:.2f})".format(x2, y2)) 
+    txtaco2 = str("Arms positions:\n"+bracco1+"\n"+bracco2)
+    pl.text(R-1.02, 0.15, txtaco2)  # txtaco
     txtstt = str("State:\nX = {:.2f}\nY = {:.2f}".format(x2, y2))
-    pl.text(-R+0.4, 0.15, txtstt)
+    txtstt2 = str("State:\nTheta 1 = {:.1f}°\nTheta 2 = {:.1f}°".format(ang1, ang2))
+    pl.text(-R+0.4, 0.15, txtstt2)  # txtstt
+    ### Área útil
+    pl.text(-1.45, -1.54, "Feasible Area", color="red") 
     ### Condição de parada
     if (dob < tamanho):
       ### Salve a figura
-      pl.savefig(caminho, dpi=600)
+      pl.savefig(caminho, dpi=2000)
       break
     ### Fazendo a figura se comportar como um GIF
     pl.show(block=False)

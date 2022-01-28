@@ -26,8 +26,8 @@ def fig_to_curve1(figXY, caminho):
   pl.axis('off')
   pl.subplot(1, 2, 2)
   pl.plot(X, Y, 'r-')
-  pl.xlabel('q1')
-  pl.ylabel('q2')
+  pl.xlabel('X')
+  pl.ylabel('Y')
   pl.savefig(caminho)
   pl.clf()
   ### Retorno
@@ -57,8 +57,8 @@ def fig_to_curve2(figXY, caminho):
   pl.axis('off')
   pl.subplot(1, 2, 2)
   pl.plot(X, Y, 'b.')
-  pl.xlabel('q1')
-  pl.ylabel('q2')
+  pl.xlabel('X')
+  pl.ylabel('Y')
   pl.savefig(caminho)
   pl.clf()
   ### Retorno

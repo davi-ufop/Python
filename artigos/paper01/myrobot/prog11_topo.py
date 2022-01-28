@@ -8,18 +8,18 @@ import nolds as nd
 ###### IMPORTANDO OS DADOS
 from random import choice
 ### Prog06: Dados e Previsões
-N6 = 487#choice(np.arange(477, 499))
+N6 = choice(np.arange(477, 499))
 print("N6: ", N6)
 traj6_D = np.genfromtxt("prog06/data/out_{:04d}.csv".format(N6), delimiter=",")
 traj6_P = np.genfromtxt("prog06/data/prev_{:04d}.csv".format(N6), delimiter=",")
 ### Prog07: Dados, Previsões e Simulações
-N7 = 19#choice(np.arange(10, 49))
+N7 = choice(np.arange(10, 49))
 print("N7: ", N7)
 traj7_D = np.genfromtxt("prog07/data/dpendulo/saida{:02d}.csv".format(N7), delimiter=",")
 traj7_P = np.genfromtxt("prog07/data/dpendulo/prev_{:02d}.csv".format(N7), delimiter=",")
 traj7_S = np.genfromtxt("prog07/data/dpendulo/sims_{:02d}.csv".format(N7), delimiter=",")
 ### Prog10: Dados e Previsões
-NX = 6#choice(np.arange(1, 9))
+NX = choice(np.arange(1, 29))
 print("NX: ", NX)
 trajX_D = np.genfromtxt("prog10/data/motor_{:02d}.csv".format(NX), delimiter=",")
 trajX_P = np.genfromtxt("prog10/data/prevs_{:02d}.csv".format(NX), delimiter=",")
