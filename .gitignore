@@ -5,6 +5,7 @@
 *.mp4
 
 ### Resultados salvos em TXT
+*.csv
 *.txt
 *.dat
 *.sql
