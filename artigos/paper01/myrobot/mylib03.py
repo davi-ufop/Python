@@ -92,7 +92,7 @@ def move_braco(xo, yo, a1b, a2b, da1, da2, R, caminho, tamanho):
     ### Condição de parada
     if (dob < tamanho):
       ### Salve a figura
-      pl.savefig(caminho, dpi=2000)
+      pl.savefig(caminho, dpi=500)
       break
     ### Fazendo a figura se comportar como um GIF
     pl.show(block=False)

@@ -5,13 +5,13 @@ import pylab as pl
 
 # Dados -> 7
 x = [1, 2, 3, 4]
-lyap7D = [0.03, 0.01, 0.01, 0.02, 0.03]
-lyap7P = [0.01, 0.01, 0.001, -0.001, 0.004]
+lyap7D = [0.03, 0.01, 0.01, 0.02, 0.03, 0.03, 0.01, 0.01, 0.02, 0.03]
+lyap7P = [0.01, 0.01, 0.001, -0.001, 0.004, 0.01, 0.01, 0.001, -0.001, 0.004]
 hurst7D = [0.917, 0.919, 0.939, 0.918, 0.933, 0.927, 0.907, 0.923, 0.942, 0.931]
 hurst7P = [0.943, 0.926, 0.960, 0.934, 0.950, 0.939, 0.935, 0.927, 0.919, 0.953]
-shannon7D = [0.108, 0.096, 0.232, 0.098, 0.143, 0.102, 0.173]#, 0.123, 0.140, 0.116]
-shannon7P = [0.125, 0.108, 0.252, 0.109, 0.206, 0.130, 0.216]#, 0.037, 0.020, 0.068]
-pearson7 = [0.97, 0.96, 0.95, 0.91, 0.97]
+shannon7D = [0.108, 0.096, 0.232, 0.098, 0.143, 0.102, 0.173, 0.123, 0.140, 0.116]
+shannon7P = [0.125, 0.108, 0.252, 0.109, 0.206, 0.130, 0.216, 0.037, 0.020, 0.068]
+pearson7 = [0.97, 0.96, 0.95, 0.91, 0.97, 0.97, 0.96, 0.95, 0.91, 0.97]
 lyapuno7 = np.array(lyap7D)/np.array(lyap7P)
 hurstco7 = np.array(hurst7P)/np.array(hurst7D)
 shannon7 = np.array(shannon7P)/np.array(shannon7D)
@@ -22,6 +22,7 @@ ml7 = np.mean(lyapuno7)/0.35
 mh7 = np.mean(hurstco7)/max(hurstco7)
 ms7 = np.mean(shannon7)/max(shannon7)
 y = [mp7, ml7, mh7, ms7]
+print("7:\n", y)
 
 # Desvio -> erro
 sp7 = np.std(pearson7)
@@ -29,6 +30,7 @@ sl7 = np.std(lyapuno7)/100
 sh7 = np.std(hurstco7)
 ss7 = np.std(shannon7)
 e = [sp7, sl7, sh7, ss7]
+print("7:\n", e)
 
 # Plotando
 labels = ['Pearson', 'Lyapunov', 'Hurst', 'Shannon']
@@ -57,6 +59,7 @@ ml6 = np.mean(lyapuno6)/max(lyapuno6)
 mh6 = np.mean(hurstco6)/max(hurstco6)
 ms6 = np.mean(shannon6)/max(shannon6)
 y = [mp6, ml6, mh6, ms6]
+print("6:\n", y)
 
 # Desvio -> erro
 sp6 = np.std(pearson6)
@@ -64,6 +67,7 @@ sl6 = np.std(lyapuno6)/8
 sh6 = np.std(hurstco6)
 ss6 = np.std(shannon6)
 e = [sp6, sl6, sh6, ss6]
+print("6:\n", e)
 
 # Plotando
 labels = ['Pearson', 'Lyapunov', 'Hurst', 'Shannon']
@@ -92,6 +96,7 @@ mlX = np.mean(lyapunoX)/max(lyapunoX)
 mhX = np.mean(hurstcoX)/max(hurstcoX)
 msX = np.mean(shannonX)/max(shannonX)
 y = [mpX, mlX, mhX, msX]
+print("10:\n", y)
 
 # Desvio -> erro
 spX = np.std(pearsonX)
@@ -99,6 +104,7 @@ slX = np.std(lyapunoX)/8
 shX = np.std(hurstcoX)
 ssX = np.std(shannonX)
 e = [spX, slX, shX, ssX]
+print("10:\n", e)
 
 # Plotando
 labels = ['Pearson', 'Lyapunov', 'Hurst', 'Shannon']
