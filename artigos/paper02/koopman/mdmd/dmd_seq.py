@@ -33,12 +33,12 @@ print('X1: \n', X1)
 print('X2: \n', X2)
 
 ### Decomposição pro valor singular -> SVD
-Ui, Si, Vi = svd(X1)
+U, S, V = svd(X1)
 
 ### Truncamento pro cálculo do operador de Koopman
-Ur = Ui[:, :r].conj().T
-Sr = np.reciprocal(Si[:r])
-Vr = Vi[:r, :].conj().T
+Ur = U[:, :r].conj().T
+Sr = np.reciprocal(S[:r])
+Vr = V[:r, :].conj().T
  
 ### Operador de Koopman
 K = Ur@X2@Vr*Sr

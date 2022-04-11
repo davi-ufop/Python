@@ -1,52 +1,50 @@
 ### Program to adjust Lorenz model in Koopman method
 ### Davi Neves - Abril/2022 - UFOP
 
-### Importando a biblioteca numérica
+### Importing libraries and methods
 import numpy as np
+import pylab as pl
+from dmd_function import dmd_model 
 
-### Dados
-r = 3
-P0 = 90
-P1 = P0 + 1
-N = P0 + 5
+### Importing and defining data
+r = 3         # matriz rank
+N = 5         # number of values - 1
 N1 = N+1
+P = int(2E3)  # total amount of points
+### Import data of lorenz model
 X = np.genfromtxt("../../dados/lorenz.csv", delimiter=",")
-Y1, Y2, Y3 = X[:,0], X[:,1], X[:,2]
-X1 = np.array([Y1[P0:N],Y2[P0:N],Y3[P0:N]])
-X2 = np.array([Y1[P1:N1],Y2[P1:N1],Y3[P1:N1]])
+Y1, Y2, Y3 = X[:,0], X[:,1], X[:,2]           # adjusting data
+XN = np.array([Y1[0:N1],Y2[0:N1],Y3[0:N1]])   # starting XN
 
-### Decomposição pro valor singular -> SVD
-U, S, V = np.linalg.svd(X1, full_matrices=False)
-Ur = U[:, :r].conj().T
-Sr = np.reciprocal(S[:r])
-Vr = V[:r, :].conj().T
+for p in range(P):
+  # points parameters
+  pn = p + N             # end point of X1
+  p1 = p + 1             # starting point of X2
+  pn1 = pn + 1           # end point of X2 
+  # X1 and X2 data updated
+  #X1 = XN[:, p:pn]
+  #X2 = XN[:, p1:pn1]
+  X1 = np.array([Y1[p:pn],Y2[p:pn],Y3[p:pn]])
+  X2 = np.array([Y1[p1:pn1],Y2[p1:pn1],Y3[p1:pn1]])
+  ### Matrix A: X2 = A*X1
+  A = dmd_model(X1, X2, r)
+  ### End State Evaluated -> End XN-Data
+  xn = XN[:, pn]
+  ### Append xn in XN
+  xn = A.real@xn
+  XN = np.c_[XN, xn]
 
-### Determinando o operador K e seus autos
-K = Ur@X2@Vr*Sr
-D, Wr = np.linalg.eig(K)
+### Calculated results
+Z1 = XN[0,:]
+Z2 = XN[1,:]
+Z3 = XN[2,:]
 
-### Autovetor de Koopman e seu pseudoinverso
-Phi = X2@Vr@np.diag(Sr)@Wr
-IPhi = np.linalg.pinv(Phi)
-### Matrizes dos autovalores de Koopman
-LB = np.diag(D)
-### Matriz de transição de estados A
-A = Phi@LB@IPhi
-
-### Estado inicial dos dados acima
-x1 = X1[:,0]
-
-### Determinando o último estado de X2
-x2 = A.real@x1
-print("x2:\n", x2)
-
-### Indo além de 2
-XN = []
-xi = x1
-for i in range(P0, N+1):
-  XN.append(xi.real)
-  xi = A@xi
-XK = np.array(XN)
-print("XN:\n", XK.T)  
+### Show results
+fig, (ax1, ax2) = pl.subplots(1,2)   # Two in one
+ax1.plot(Y1[0:P], Y3[0:P], 'b-')     # Left figure
+ax1.set_title("Original")
+ax2.plot(Z1, Z3, 'r-')               # Right figure
+ax2.set_title("Calculated")
+pl.savefig("solution.png")           # Saving
 
 ### FIM

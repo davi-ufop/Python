@@ -4,7 +4,7 @@
 % Dados iniciais
 dt = 1;  % Passo temporal
 r = 3;   % Rank do operador de Koopman
-X1 = [1,2,3,4,5;2,3,4,5,6;3,5,7,9,11];    % Dados prévios
+X1 = [1,2,3,4,5;2,3,4,5,6;3,5,7,9,11]     % Dados prévios
 X2 = [2,3,4,5,6;3,4,5,6,7;5,7,9,11,13];   % Dados posteriores
 
 % Decomposição SVD do sistema
