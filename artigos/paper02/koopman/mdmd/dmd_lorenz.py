@@ -20,7 +20,7 @@ pl.clf()
 
 ### Parâmetros
 r = 3
-N = 11
+N = 10
 p = 1
 
 ### Vetores pra testar A
@@ -79,7 +79,7 @@ VA = np.array(XA)
 
 ### Plot A
 A1, A3 = VA[:, 0], VA[:, 2]
-pl.plot(Y1[:N5], Y3[:N5], 'k-', label='exate')
+pl.plot(Y1[:N5], Y3[:N5], 'k-', label='exact')
 pl.plot(A1, A3, 'b.', label='forecast')
 pl.xlabel('Convection')
 pl.ylabel('Vertical Temperature')
