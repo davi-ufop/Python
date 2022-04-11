@@ -25,6 +25,6 @@ AIC = X@LI@XI    # A inverse composte
 print("A matrix:\n", round(A.real, p))
 print("A composte:\n", round(AC.real, p))
 print("A inverse:\n", round(AI.real, p))
-print("A inverse composte:\n", round(AIC.real, p))
+print("A inverse by composte:\n", round(AIC.real, p))
 
 ### End
